@@ -1,6 +1,6 @@
 package arrays
 
-// * Go has slices which do not encode the size of the collection and instead can have any size.
+// * Go has "slices" which do not encode the size of the collection and instead can have any size.
 
 func Sum(numbers [5]int) int {
 	// result := 0
