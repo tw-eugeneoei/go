@@ -1,1 +1,1 @@
-# Go Tutorial
+# Basic Go
