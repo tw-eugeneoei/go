@@ -27,7 +27,11 @@ func TestAdd(t *testing.T) {
 		dictionary := Dictionary{}
 		word := "coder"
 		meaning := "needs coffee"
-		dictionary.Add(word, meaning)
+		err := dictionary.Add(word, meaning)
+
+		if err != nil {
+			t.Fatal("should not throw error")
+		}
 
 		assertWordExist(t, dictionary, word, meaning)
 	})
@@ -37,7 +41,43 @@ func TestAdd(t *testing.T) {
 		meaning := "needs coffee"
 		dictionary := Dictionary{word: meaning}
 
-		assertAddExistingWord(t, dictionary, word, meaning)
+		err := dictionary.Add(word, meaning)
+
+		if err != wordAlreadyExistError {
+			t.Errorf("should throw error")
+		}
+		// assertAddExistingWord(t, dictionary, word, meaning)
+	})
+}
+
+func TestUpdate(t *testing.T) {
+
+	t.Run("should update word with new meaning", func(t *testing.T) {
+		word := "coder"
+		meaning := "needs coffee"
+		dictionary := Dictionary{word: meaning}
+		newMeaning := "eat sleep code repeat"
+
+		err := dictionary.Update(word, newMeaning)
+
+		if err != nil {
+			t.Fatal("should not throw error")
+		}
+
+		assertWordExist(t, dictionary, word, newMeaning)
+	})
+
+	t.Run("should throw error if word to update does not exist", func(t *testing.T) {
+		word := "coder"
+		meaning := "needs coffee"
+		dictionary := Dictionary{}
+
+		err := dictionary.Update(word, meaning)
+
+		if err == nil {
+			t.Errorf("should throw error")
+		}
+		// assertCannotUpdateWordThatDoesNotExist(t, dictionary, word, meaning)
 	})
 }
 
@@ -46,7 +86,7 @@ func assertWordExist(t testing.TB, dictionary Dictionary, word string, expected 
 	result, _ := dictionary.Search(word)
 
 	if expected != result {
-		t.Errorf("expected '%q' got '%q'", expected, result)
+		t.Errorf("expected %q got %q", expected, result)
 	}
 }
 
@@ -59,10 +99,18 @@ func assertWordDoesNotExist(t testing.TB, dictionary Dictionary, word string) {
 	}
 }
 
-func assertAddExistingWord(t testing.TB, dictionary Dictionary, word string, meaning string) {
-	err := dictionary.Add(word, meaning)
+// func assertAddExistingWord(t testing.TB, dictionary Dictionary, word string, meaning string) {
+// 	err := dictionary.Add(word, meaning)
 
-	if err != wordAlreadyExistError {
-		t.Errorf("should throw error")
-	}
-}
+// 	if err != wordAlreadyExistError {
+// 		t.Errorf("should throw error")
+// 	}
+// }
+
+// func assertCannotUpdateWordThatDoesNotExist(t testing.TB, dictionary Dictionary, word string, meaning string) {
+// 	err := dictionary.Update(word, meaning)
+
+// 	if err == nil {
+// 		t.Errorf("should throw error")
+// 	}
+// }

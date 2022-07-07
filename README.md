@@ -7,6 +7,7 @@
 -   go install github.com/kisielk/errcheck@latest
     -   package to help identify errors that have not been checked
     -   `errcheck .`
+-   In Go interface resolution is implicit. If the type you pass in matches what the interface is asking for, it will compile. (structsmethodsinterfaces.go)
 
 # Resources
 
