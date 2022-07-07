@@ -53,6 +53,10 @@ func (d Dictionary) Update(word string, meaning string) error {
 	return nil
 }
 
+func (d Dictionary) Delete(word string) {
+	delete(d, word)
+}
+
 // func Search(dictionary map[string]string, word string) (string, error) {
 // 	return dictionary[word], errors.New("ads")
 // }
