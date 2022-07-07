@@ -2,6 +2,8 @@ package maps
 
 type DictionaryErr string
 
+// * Any type with an Error() string method fulfils the error interface
+// * therefore, it becomes a valid "error" type when returned in a function
 func (de DictionaryErr) Error() string {
 	return string(de)
 }
