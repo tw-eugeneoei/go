@@ -15,13 +15,14 @@ func CheckWebsites(wc WebsiteChecker, urls []string) map[string]bool {
 
 	for _, url := range urls {
 		go func(u string) {
-			// * sending a result struct for each call to wc to the resultChannel with a send statement
+			// * WRITING data into channel
+			// * note that this is a blocking call
 			resultsChannel <- result{u, wc(u)}
 		}(url)
 	}
 
 	for i := 0; i < len(urls); i++ {
-		// * we're using a receive expression, which assigns a value received from a channel to a variable
+		// * READING data from channel
 		r := <-resultsChannel
 		results[r.string] = r.bool
 	}
